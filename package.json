@@ -1,0 +1,39 @@
+{
+  "name": "jade-webpack",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "npm run clean && npm run watch",
+    "watch": "cross-env NODE_ENV=development webpack --watch --progress --colors --display-error-details --display-reasons --config webpack.config.js",
+    "build": "npm run clean && npm run build:prod",
+    "build:dev": "cross-env NODE_ENV=development webpack --progress --colors --config webpack.config.js",
+    "build:prod": "cross-env NODE_ENV=production webpack --progress --colors --config webpack.config.js",
+    "clean": "rimraf build"
+  },
+  "author": "Mustafa ismail",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.9.1",
+    "babel-loader": "^6.2.4",
+    "browser-sync": "^2.13.0",
+    "browser-sync-webpack-plugin": "^1.0.3",
+    "cross-env": "^1.0.8",
+    "css-loader": "^0.23.1",
+    "extract-loader": "0.0.2",
+    "file-loader": "^0.8.5",
+    "glob": "^7.0.3",
+    "html-loader": "^0.4.3",
+    "html-webpack-plugin": "^2.21.0",
+    "jade": "^1.11.0",
+    "jade-loader": "^0.8.0",
+    "node-sass": "^3.7.0",
+    "postcss-loader": "^0.9.1",
+    "rimraf": "^2.5.2",
+    "sass-loader": "^3.2.0",
+    "webpack": "^1.13.1"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
