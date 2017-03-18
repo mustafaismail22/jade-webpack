@@ -13,4 +13,4 @@ html
 		block main
 			p Nothing here!
 		block scripts
-			script(src=require('./assets/js/main.js'))
+			script(src=htmlWebpackPlugin.files.chunks.main.entry)

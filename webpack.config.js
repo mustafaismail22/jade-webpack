@@ -14,7 +14,7 @@ const PATHS = {
 	fonts: 'assets/fonts/'
 }
 
-const plugins = glob.sync(path.join(rootPath , '*.jade')).map(p => new HtmlWebpackPlugin({
+const plugins = glob.sync(path.join(rootPath , '*.pug')).map(p => new HtmlWebpackPlugin({
 	filename: PATHS.html + path.basename(p , path.extname(p)) + '.html',
 	template: p,
 	inject: false,
@@ -34,38 +34,32 @@ plugins.unshift(  new BrowserSyncPlugin({
 
 const config = () => ({
 	// context: rootPath,
-	entry: {},
+	entry: {
+		main: path.join(rootPath, 'assets', 'js', 'main.js')
+	},
 	output: {
 		path: path.join(__dirname, 'build'),
-		filename: PATHS.js + '[name].js',
-		chunkFilename: PATHS.js + '[name]-[id].chunk.js',
-		publicPath: '/',
-	},
-	resolve: {
-		extensions: ['', '.js', '.scss', '.css', '.jade'],
-		modulesDirectories: ['node_modules']
+		filename: PATHS.js + `[name]${!debug ? '-[hash:6]' : ''}.js`,
+		chunkFilename: PATHS.js + '[name]-[id]-[hash:6].chunk.js',
+		publicPath: '/'
 	},
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.js$/,
-				loaders: [
-					`file-loader?name=${PATHS.js}[name]${!debug ? '-[hash:6]' : ''}.js`,
-					'babel-loader'
-				],
-				exclude: /(node_modules)/
+				loader: 'babel-loader',
+				exclude: /node_modules/
 			},
 			{
-				test: /\.jade$/,
-				loader: 'jade-loader?pretty=true'
+				test: /\.(jade|pug)$/,
+				loader: 'pug-loader?pretty=true'
 			},
 			{
 				test: /\.(css|scss|sass)$/,
-				loaders: [
+				use: [
 					`file-loader?name=${PATHS.css}[name]${!debug ? '-[hash:6]' : ''}.css`,
 					'extract-loader',
 					'css-loader',
-					'postcss-loader',
 					'sass-loader'
 				]
 			},
@@ -76,22 +70,22 @@ const config = () => ({
 			{
 				test: /\.(ico|pdf|jpe?g|gif|png|mp4|webm)$/,
 				loader: `file-loader?name=${PATHS.files}[name]-[hash:6].[ext]`
-			},
+			}
 		],
 		noParse: /\.min\.js/
 	},
-	plugins: plugins,
-	debug: debug,
+	plugins: plugins
+	// debug: debug
 });
 
 
 module.exports = config();
-module.exports.config = config;
+// module.exports.config = config;
 
 
 console.log("++++++++++++++++++++++++++++++++++++++");
 console.log("+++++++++++ WEBPACK CONFIG +++++++++++");
 console.log("++++++++++++++++++++++++++++++++++++++");
-console.dir( module.exports , {depth: 4, colors: true} );
+console.dir( module.exports , {depth: 3, colors: true} );
 console.log("++++++++++++++++++++++++++++++++++++++");
 console.log("++++++++++++++++++++++++++++++++++++++\n");
